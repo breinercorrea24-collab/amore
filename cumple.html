@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Love! | System.out.println("Te Amo")</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Prism.js: resaltado de sintaxis para el código Java -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;800&family=Dancing+Script:wght@700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .font-handwriting {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        #typedCode {
+            white-space: pre-wrap;
+        }
+
+        #typedCode .code-line {
+            display: block;
+            min-height: 1.5em;
+        }
+
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(244, 114, 182, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(244, 114, 182, 0.4);
+        }
+
+        /* Neon Glows */
+        .neon-pink-text {
+            text-shadow: 0 0 10px rgba(244, 114, 182, 0.6), 0 0 20px rgba(244, 114, 182, 0.3);
+        }
+
+        .neon-glow-pink {
+            box-shadow: 0 0 20px rgba(244, 114, 182, 0.3);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #f472b6;
+            border-radius: 4px;
+        }
+
+        /* Floating Musical Notes Animation */
+        @keyframes floatNote {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .floating-note {
+            position: absolute;
+            animation: floatNote 3s ease-out forwards;
+            pointer-events: none;
+            color: #ec4899;
+        }
+
+        /* Code Terminal Typing Animation Cursor */
+        .cursor-blink::after {
+            content: '▋';
+            animation: blink 1s step-start infinite;
+            color: #10b981;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Pulse animation for Status OK badge */
+        @keyframes statusPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.05);
+            }
+        }
+
+        .status-pulse {
+            animation: statusPulse 2s infinite ease-in-out;
+        }
+
+
+
+        /* Banner de foto de perfil de la cumpleañera */
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+
+        .avatar-frame {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            border-radius: 50%;
+            padding: 5px;
+            background: linear-gradient(45deg, var(--pink-neon), var(--purple-neon), var(--green-code));
+            background-size: 300% 300%;
+            animation: gradientBorder 6s ease infinite, pulse 2s infinite alternate;
+            box-shadow: 0 0 25px rgba(255, 42, 133, 0.5);
+        }
+
+        .avatar-frame img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--bg-color);
+        }
+
+        .status-badge {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            background-color: var(--green-code);
+            color: #000;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px var(--green-code);
+        }
+
+        @keyframes gradientBorder {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.05);
+            }
+        }
+
+        .profile-title {
+            margin-top: 15px;
+            font-size: 1.8rem;
+            color: var(--pink-neon);
+            text-shadow: 0 0 10px rgba(255, 42, 133, 0.4);
+        }
+
+        .profile-subtitle {
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--green-code);
+            font-size: 1rem;
+        }
+
+        /* Resto de contenedor de la página */
+        .content-box {
+            max-width: 800px;
+            margin: 20px auto;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 42, 133, 0.2);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+
+<body class="relative min-h-screen">
+
+    <!-- Background Particles Canvas -->
+    <canvas id="bgCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- MAIN CONTAINER -->
+    <div class="relative z-10 max-w-6xl mx-auto px-4 py-8 space-y-12">
+
+        <!-- HEADER / HERO SECTION -->
+        <header class="text-center space-y-4 pt-6">
+            <div
+                class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-950/40 border border-pink-500/30 text-pink-300 font-code text-sm status-pulse">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block shadow-[0_0_8px_#34d399]"></span>
+                <span>STATUS: 200 OK | HAPPY_BIRTHDAY.exe EXECUTED</span>
+            </div>
+
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight">
+                ¡Feliz Cumpleaños, <span
+                    class="bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent neon-pink-text">Mi
+                    Ingeniera Favorita</span>! 💖
+            </h1>
+
+            <div class="avatar-frame">
+                <!-- REEMPLAZA "foto-de-ella.jpg" POR LA RUTA O LINK DE SU FOTO -->
+                <img src="assets/a.jpg" alt="La Cumpleañera">
+                <span class="status-badge"><i class="fas fa-code"></i> 200 OK</span>
+            </div>
+
+            <p class="text-gray-300 max-w-2xl mx-auto text-lg md:text-xl font-light">
+                "Caminando por la vida" encontré el mejor algoritmo: el que me conecta contigo. Hoy celebramos tu día
+                especial rodeados de código, amor y Melendi. 🎶✨
+            </p>
+
+            <!-- Quick Action Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <button onclick="launchCelebration()"
+                    class="px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-pink-500/25 transition-all transform hover:-translate-y-1 flex items-center gap-2">
+                    <i class="fa-solid font-bold fa-wand-magic-sparkles"></i>
+                    <span>¡Lanzar Fuegos Artificiales!</span>
+                </button>
+                <button onclick="scrollToSection('terminal')"
+                    class="px-6 py-3 rounded-xl glass-card text-pink-300 hover:bg-pink-950/30 border border-pink-500/30 font-code font-medium transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-terminal"></i>
+                    <span>Abrir Consola</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- SYSTEM METRICS / LOVE METRICS DASHBOARD -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="glass-card p-4 rounded-2xl text-center space-y-1">
+                <div class="text-pink-400 font-code text-2xl md:text-3xl font-bold" id="uptimeDays">365+</div>
+                <div class="text-gray-400 text-xs md:text-sm uppercase tracking-wider font-semibold">Uptime de Amor
+                    (Días)</div>
+            </div>
+            <div class="glass-card p-4 rounded-2xl text-center space-y-1">
+                <div class="text-emerald-400 font-code text-2xl md:text-3xl font-bold">100%</div>
+                <div class="text-gray-400 text-xs md:text-sm uppercase tracking-wider font-semibold">Tests de Amor
+                    Pasados</div>
+            </div>
+            <div class="glass-card p-4 rounded-2xl text-center space-y-1">
+                <div class="text-purple-400 font-code text-2xl md:text-3xl font-bold">∞</div>
+                <div class="text-gray-400 text-xs md:text-sm uppercase tracking-wider font-semibold">Bucle Infinito
+                    (Loop)</div>
+            </div>
+            <div class="glass-card p-4 rounded-2xl text-center space-y-1">
+                <div class="text-red-400 font-code text-2xl md:text-3xl font-bold"><i
+                        class="fa-solid fa-heart animate-pulse"></i> 140 BPM</div>
+                <div class="text-gray-400 text-xs md:text-sm uppercase tracking-wider font-semibold">Heartbeat Rate
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: INTERACTIVE SYSTEM TERMINAL -->
+        <section id="terminal" class="glass-card rounded-2xl overflow-hidden shadow-2xl border border-pink-500/30">
+            <!-- Terminal Header Bar -->
+            <div class="bg-gray-900/90 px-4 py-3 border-b border-gray-800 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <span class="w-3 h-3 rounded-full bg-red-500 inline-block cursor-pointer"
+                        onclick="clearTerminal()"></span>
+                    <span class="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span>
+                    <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
+                    <span class="ml-2 text-xs font-code text-gray-400">bash - love_declaration.java — 80x24</span>
+                </div>
+                <div class="flex items-center space-x-3 text-xs font-code text-gray-400">
+                    <span class="text-pink-400 font-semibold"><i class="fa-solid fa-code-branch"></i> main*</span>
+                    <button id="runBtn" onclick="runTerminalScript()"
+                        class="bg-pink-600 hover:bg-pink-500 text-white px-3 py-1 rounded transition-colors flex items-center gap-1 font-sans text-xs">
+                        <i class="fa-solid fa-play text-xxs"></i> RUN
+                    </button>
+                </div>
+            </div>
+
+            <!-- Terminal Body -->
+            <div class="p-5 font-code text-sm md:text-base leading-relaxed bg-black/60 min-h-[280px] max-h-[420px] overflow-y-auto"
+                id="terminalOutput">
+                <p class="text-gray-500">// Presiona "RUN" o escribe abajo para compilar mi corazón ❤️</p>
+                <p class="text-pink-400"><span class="text-emerald-400">breiner@love-system:~$</span> javac
+                    AmorVerdadero.java && java AmorVerdadero</p>
+                <div id="typedCode" class="mt-3 text-gray-200 space-y-1"></div>
+            </div>
+
+            <!-- Terminal Interactive Input -->
+            <div class="bg-gray-950 px-4 py-2 border-t border-gray-800/80 flex items-center gap-2 font-code text-sm">
+                <span class="text-emerald-400">amore@love:~$</span>
+                <input type="text" id="terminalInput"
+                    placeholder="Escribe 'melendi', 'love', 'help' o presiona Enter..."
+                    class="bg-transparent text-pink-300 w-full focus:outline-none font-code placeholder-gray-600"
+                    onkeydown="handleTerminalCommand(event)">
+            </div>
+        </section>
+
+        <!-- SECTION 2: MELENDI PLAYLIST & CARDS -->
+        <section id="playlist" class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-2 border-b border-pink-500/20 pb-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold flex items-center gap-3">
+                        <i class="fa-solid fa-compact-disc text-pink-400 animate-spin"
+                            style="animation-duration: 8s;"></i>
+                        <span>Melendi Soundtracks de Nuestra Historia</span>
+                    </h2>
+                    <p class="text-gray-400 text-sm mt-1">Canciones con letras que parecen programadas exactamente para
+                        ti y para mí.</p>
+                </div>
+                <div
+                    class="text-xs font-code text-pink-400/80 bg-pink-950/50 px-3 py-1.5 rounded-lg border border-pink-500/20">
+                    Audio Engine: Melendi.dll loaded
+                </div>
+            </div>
+
+            <div class="glass-card p-4 rounded-2xl flex flex-col gap-3">
+                <div class="flex items-center justify-between gap-3">
+                    <span id="nowPlaying" class="text-sm text-gray-300 font-code">Selecciona una canción para reproducirla</span>
+                    <i class="fa-solid fa-music text-pink-400"></i>
+                </div>
+                <audio id="audioPlayer" controls preload="metadata" class="w-full">
+                    Tu navegador no soporta la reproducción de audio.
+                </audio>
+            </div>
+
+            <!-- Song Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Song 1 -->
+                <div
+                    class="glass-card p-6 rounded-2xl hover:border-pink-500/50 transition-all group relative overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="text-xs font-code text-pink-400 uppercase tracking-widest">Track #01</span>
+                            <h3 class="text-xl font-bold text-white group-hover:text-pink-300 transition-colors">Tu
+                                Jardín con Enanitos</h3>
+                        </div>
+                        <button data-song-button onclick="playSongEffect('Tu Jardín con Enanitos', 'assets/tu-jardin-con-enanitos.mp3', this)"
+                            class="w-10 h-10 rounded-full bg-pink-500/20 hover:bg-pink-500 text-pink-300 hover:text-white flex items-center justify-center transition-all shadow-md">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                    </div>
+                    <blockquote
+                        class="mt-4 italic text-gray-300 text-sm border-l-2 border-pink-500 pl-3 font-handwriting text-lg">
+                        "Quiero ser tu medicina, tus ganas de caminar... Quiero ser tu jardín con enanitos, para que a
+                        nadie le falte de ná."
+                    </blockquote>
+                    <div
+                        class="mt-4 pt-3 border-t border-gray-800 flex items-center justify-between text-xs text-gray-400 font-code">
+                        <span><i class="fa-solid fa-code"></i> Metáfora: Mi refugio seguro</span>
+                        <span class="text-emerald-400">Sync Rate: 100%</span>
+                    </div>
+                </div>
+
+                <!-- Song 2 -->
+                <div
+                    class="glass-card p-6 rounded-2xl hover:border-pink-500/50 transition-all group relative overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="text-xs font-code text-pink-400 uppercase tracking-widest">Track #02</span>
+                            <h3 class="text-xl font-bold text-white group-hover:text-pink-300 transition-colors">Destino
+                                o Casualidad</h3>
+                        </div>
+                        <button data-song-button onclick="playSongEffect('Destino o Casualidad', 'assets/destino-o-casualidad.mp3', this)"
+                            class="w-10 h-10 rounded-full bg-pink-500/20 hover:bg-pink-500 text-pink-300 hover:text-white flex items-center justify-center transition-all shadow-md">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                    </div>
+                    <blockquote
+                        class="mt-4 italic text-gray-300 text-sm border-l-2 border-pink-500 pl-3 font-handwriting text-lg">
+                        "Dos extraños se cruzan por casualidad... El destino no comete errores, sólo junta las almas que
+                        deben encontrarse."
+                    </blockquote>
+                    <div
+                        class="mt-4 pt-3 border-t border-gray-800 flex items-center justify-between text-xs text-gray-400 font-code">
+                        <span><i class="fa-solid fa-diagram-project"></i> Algoritmo: Destino()</span>
+                        <span class="text-emerald-400">Match Found</span>
+                    </div>
+                </div>
+
+                <!-- Song 3 -->
+                <div
+                    class="glass-card p-6 rounded-2xl hover:border-pink-500/50 transition-all group relative overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="text-xs font-code text-pink-400 uppercase tracking-widest">Track #03</span>
+                            <h3 class="text-xl font-bold text-white group-hover:text-pink-300 transition-colors">La
+                                Promesa</h3>
+                        </div>
+                        <button data-song-button onclick="playSongEffect('La Promesa', 'assets/la-promesa.mp3', this)"
+                            class="w-10 h-10 rounded-full bg-pink-500/20 hover:bg-pink-500 text-pink-300 hover:text-white flex items-center justify-center transition-all shadow-md">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                    </div>
+                    <blockquote
+                        class="mt-4 italic text-gray-300 text-sm border-l-2 border-pink-500 pl-3 font-handwriting text-lg">
+                        "Prometo cuidarte, prometo abrazarte, prometo no dejarte nunca ir..."
+                    </blockquote>
+                    <div
+                        class="mt-4 pt-3 border-t border-gray-800 flex items-center justify-between text-xs text-gray-400 font-code">
+                        <span><i class="fa-solid fa-lock"></i> Encryption: Eternal Trust</span>
+                        <span class="text-emerald-400">Const Promise = true</span>
+                    </div>
+                </div>
+
+                <!-- Song 4 -->
+                <div
+                    class="glass-card p-6 rounded-2xl hover:border-pink-500/50 transition-all group relative overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="space-y-1">
+                            <span class="text-xs font-code text-pink-400 uppercase tracking-widest">Track #04</span>
+                            <h3 class="text-xl font-bold text-white group-hover:text-pink-300 transition-colors">
+                                Caminando por la Vida</h3>
+                        </div>
+                        <button data-song-button onclick="playSongEffect('Caminando por la Vida', 'assets/caminando-por-la-vida.mp3', this)"
+                            class="w-10 h-10 rounded-full bg-pink-500/20 hover:bg-pink-500 text-pink-300 hover:text-white flex items-center justify-center transition-all shadow-md">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                    </div>
+                    <blockquote
+                        class="mt-4 italic text-gray-300 text-sm border-l-2 border-pink-500 pl-3 font-handwriting text-lg">
+                        "Voy caminando por la vida, sin prisa pero con calma... disfrutando del paisaje y contigo de la
+                        mano."
+                    </blockquote>
+                    <div
+                        class="mt-4 pt-3 border-t border-gray-800 flex items-center justify-between text-xs text-gray-400 font-code">
+                        <span><i class="fa-solid fa-route"></i> Path: /lifetime/together</span>
+                        <span class="text-emerald-400">Looping Forever</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 3: GIT TIMELINE OF OUR STORY -->
+        <section class="space-y-6">
+            <div class="border-b border-pink-500/20 pb-4">
+                <h2 class="text-2xl md:text-3xl font-bold flex items-center gap-3">
+                    <i class="fa-solid fa-code-commit text-pink-400"></i>
+                    <span>Git Log: Nuestra Historia de Amor</span>
+                </h2>
+                <p class="text-gray-400 text-sm mt-1">Nuestros mejores commits desplegados en producción.</p>
+            </div>
+
+            <!-- Timeline -->
+            <div class="relative pl-6 md:pl-8 border-l-2 border-pink-500/30 space-y-8 my-6">
+
+                <!-- Commit 1 -->
+                <div class="relative group">
+                    <!-- Dot Marker -->
+                    <div
+                        class="absolute -left-[31px] md:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-pink-500 border-4 border-gray-900 group-hover:scale-125 transition-transform">
+                    </div>
+                    <div class="glass-card p-5 rounded-2xl space-y-2">
+                        <div class="flex flex-wrap items-center justify-between gap-2 font-code text-xs">
+                            <span
+                                class="bg-pink-950/80 text-pink-300 px-2.5 py-1 rounded-md border border-pink-500/30">commit
+                                7a10f8b</span>
+                            <span class="text-gray-400"><i class="fa-regular fa-calendar"></i> El primer 'Hello
+                                World'</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">El Primer Encuentro</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Aquel día inicial en el que cruzamos miradas. Como dice Melendi: *Fue destino o casualidad*,
+                            pero ahí comenzó la mejor historia jamás compilada.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Commit 2 -->
+                <div class="relative group">
+                    <div
+                        class="absolute -left-[31px] md:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-purple-500 border-4 border-gray-900 group-hover:scale-125 transition-transform">
+                    </div>
+                    <div class="glass-card p-5 rounded-2xl space-y-2">
+                        <div class="flex flex-wrap items-center justify-between gap-2 font-code text-xs">
+                            <span
+                                class="bg-purple-950/80 text-purple-300 px-2.5 py-1 rounded-md border border-purple-500/30">commit
+                                e309b12</span>
+                            <span class="text-gray-400"><i class="fa-regular fa-calendar"></i> Primer 'Pull Request'
+                                Aceptado</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Nuestro Primer Viaje / Cita Especial</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Risas interminables, canciones cantadas a todo pulmón en el auto y la certeza de que tu
+                            sonrisa solucionaba cualquier bug de mi día.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Commit 3 -->
+                <div class="relative group">
+                    <div
+                        class="absolute -left-[31px] md:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-emerald-400 border-4 border-gray-900 group-hover:scale-125 transition-transform">
+                    </div>
+                    <div class="glass-card p-5 rounded-2xl space-y-2">
+                        <div class="flex flex-wrap items-center justify-between gap-2 font-code text-xs">
+                            <span
+                                class="bg-emerald-950/80 text-emerald-300 px-2.5 py-1 rounded-md border border-emerald-500/30">commit
+                                v2.0.0 (Latest)</span>
+                            <span class="text-gray-400"><i class="fa-regular fa-calendar"></i> Hoy — ¡Tu
+                                Cumpleaños!</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Un Nuevo Año Lleno de Éxito y Amor</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Celebro tu talento, tu inteligencia deslumbrante como ingeniera de sistemas, tu ternura y
+                            todo lo hermoso que construimos juntos cada día.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 4: ROMANTIC LOVE LETTER / CARD -->
+        <section
+            class="glass-card p-8 md:p-10 rounded-3xl relative overflow-hidden border border-pink-500/40 text-center space-y-6 shadow-2xl">
+            <!-- Decorative Background glow -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl pointer-events-none">
+            </div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none">
+            </div>
+
+            <img src="assets/b.jpg" alt="La Cumpleañera">
+
+            <div class="inline-block p-3 rounded-full bg-pink-500/20 text-pink-400 mb-2">
+                <i class="fa-solid fa-envelope-open-text text-3xl"></i>
+            </div>
+
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white">
+                Carta para la Ingeniera de mi Corazón 💌
+            </h2>
+
+            <div class="max-w-3xl mx-auto space-y-4 text-gray-200 leading-relaxed font-light text-base md:text-lg">
+                <p>
+                    Mi amor, si la vida fuera una arquitectura de software, tú serías el núcleo principal, la librería
+                    más elegante y el algoritmo perfecto que le da sentido a todo mi sistema.
+                </p>
+                <p>
+                    Me encanta ver cómo resuelves problemas complejos con esa mente tan brillante de sistemas, pero me
+                    enamora aún más ver la ternura con la que iluminas cada uno de mis días. Como canta Melendi: <em
+                        class="text-pink-300 font-normal">"Hablando de promesas, prometo darte el mundo entero"</em>.
+                </p>
+                <p class="font-semibold text-pink-300">
+                    ¡Que este nuevo año de vida venga lleno de deploys exitosos, código sin errores y miles de momentos
+                    mágicos a mi lado! Feliz cumpleaños. 🎂🎉
+                </p>
+            </div>
+
+            <div class="pt-4 flex justify-center">
+                <button onclick="launchBirthdaySurprise()"
+                    class="px-8 py-4 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 text-white font-bold text-lg shadow-xl hover:shadow-pink-500/40 transition-all transform hover:scale-105 flex items-center gap-3">
+                    <i class="fa-solid fa-cake-candles text-yellow-300"></i>
+                    <span>¡Pide un Deseo y Presiona Aquí!</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center text-xs font-code text-gray-500 py-6 border-t border-gray-800 space-y-2">
+            <p>Made with <i class="fa-solid fa-heart text-pink-500"></i> for the most amazing Developer Girlfriend in
+                the world.</p>
+            <p>© <span id="currentYear"></span> System.out.println("Te amo de aquí al infinito");</p>
+        </footer>
+
+    </div>
+
+    <!-- Prism.js: motor y lenguaje Java -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Set Current Year in Footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // -------------------------------------------------------------
+        // BACKGROUND STAR & HEART PARTICLES CANVAS
+        // -------------------------------------------------------------
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.alpha = Math.random() * 0.7 + 0.3;
+                this.color = Math.random() > 0.3 ? '#f472b6' : '#a855f7';
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 70; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // -------------------------------------------------------------
+        // TERMINAL SCRIPT COMPILER ANIMATION
+        // -------------------------------------------------------------
+        const codeScript = [
+            "public class AmorEterno {",
+            "    public static void main(String[] args) {",
+            "        Developer amore = new Developer('El Amor de Mi Vida');",
+            "        Melendi melendi = new Melendi('Tu Jardín con Enanitos');",
+            "",
+            "        while (amore.isHappy()) {",
+            "            System.out.println('Tu sonrisa = Status 200 OK');",
+            "            love.increaseContinuously();",
+            "            // Como dice Melendi: Prometo cuidarte siempre...",
+            "        }",
+            "    }",
+            "}"
+        ];
+
+        let isCodeRunning = false;
+
+        function runTerminalScript() {
+            if (isCodeRunning) return;
+            isCodeRunning = true;
+
+            const outputDiv = document.getElementById('typedCode');
+            outputDiv.innerHTML = '';
+
+            let lineIdx = 0;
+
+            function typeLine() {
+                if (lineIdx < codeScript.length) {
+                    const p = document.createElement('span');
+                    p.className = 'code-line transition-opacity duration-300';
+                    p.innerHTML = Prism.highlight(codeScript[lineIdx], Prism.languages.java, 'java');
+                    outputDiv.appendChild(p);
+                    outputDiv.scrollTop = outputDiv.scrollHeight;
+                    lineIdx++;
+                    setTimeout(typeLine, 250);
+                } else {
+                    const successMsg = document.createElement('p');
+                    successMsg.className = 'text-pink-400 font-bold mt-2 cursor-blink';
+                    successMsg.innerHTML = '>>> COMPILATION SUCCESSFUL! Result: TE AMO CON TODO MI CORAZÓN ❤️';
+                    outputDiv.appendChild(successMsg);
+                    isCodeRunning = false;
+                    launchConfetti();
+                }
+            }
+
+            typeLine();
+        }
+
+        function handleTerminalCommand(e) {
+            if (e.key === 'Enter') {
+                const input = e.target.value.trim().toLowerCase();
+                const outputDiv = document.getElementById('typedCode');
+
+                const cmdOutput = document.createElement('p');
+                cmdOutput.className = 'text-pink-300 font-code mt-1';
+
+                if (input === 'melendi') {
+                    cmdOutput.innerHTML = '<span class="text-yellow-400">🎶 Melendi Quote:</span> "Quiero ser tu jardín con enanitos... y caminemos juntos por la vida!"';
+                } else if (input === 'love' || input === 'amor') {
+                    cmdOutput.innerHTML = '<span class="text-red-400">❤️ Amor Status:</span> Infinite Loop of happiness active!';
+                } else if (input === 'help') {
+                    cmdOutput.innerHTML = 'Comandos disponibles: <span class="text-emerald-400">melendi, love, clear, run</span>';
+                } else if (input === 'clear') {
+                    clearTerminal();
+                    e.target.value = '';
+                    return;
+                } else {
+                    cmdOutput.innerHTML = `Comando no reconocido: '${input}'. Escribe <span class="text-emerald-400">help</span> o presiona <span class="text-pink-400">RUN</span>.`;
+                }
+
+                outputDiv.appendChild(cmdOutput);
+                e.target.value = '';
+                outputDiv.scrollTop = outputDiv.scrollHeight;
+            }
+        }
+
+        function clearTerminal() {
+            document.getElementById('typedCode').innerHTML = '';
+        }
+
+        // -------------------------------------------------------------
+        // MELENDI SOUND EFFECT / MUSICAL FLOATING NOTES
+        // -------------------------------------------------------------
+        const audioPlayer = document.getElementById('audioPlayer');
+        const nowPlaying = document.getElementById('nowPlaying');
+
+        function playSongEffect(songTitle, songPath, btn) {
+            const isCurrentSong = audioPlayer.src.endsWith(songPath);
+
+            if (isCurrentSong && !audioPlayer.paused) {
+                audioPlayer.pause();
+                btn.querySelector('i').className = 'fa-solid fa-play';
+                nowPlaying.textContent = `Pausada: ${songTitle}`;
+            } else {
+                document.querySelectorAll('[data-song-button] i').forEach(icon => {
+                    icon.className = 'fa-solid fa-play';
+                });
+
+                if (!isCurrentSong) {
+                    audioPlayer.src = songPath;
+                }
+
+                audioPlayer.play().then(() => {
+                    btn.querySelector('i').className = 'fa-solid fa-pause';
+                    nowPlaying.textContent = `Reproduciendo: ${songTitle}`;
+                }).catch(() => {
+                    nowPlaying.textContent = `No se pudo cargar ${songPath}. Revisa que el archivo exista.`;
+                });
+            }
+
+            // Spawn musical floating notes near button
+            const rect = btn.getBoundingClientRect();
+            const notes = ['🎵', '🎶', '🎼', '💖', '✨'];
+
+            for (let i = 0; i < 6; i++) {
+                setTimeout(() => {
+                    const note = document.createElement('div');
+                    note.className = 'floating-note font-bold text-lg';
+                    note.textContent = notes[Math.floor(Math.random() * notes.length)];
+                    note.style.left = (rect.left + window.scrollX + Math.random() * 40 - 20) + 'px';
+                    note.style.top = (rect.top + window.scrollY - 10) + 'px';
+                    document.body.appendChild(note);
+
+                    setTimeout(() => note.remove(), 3000);
+                }, i * 200);
+            }
+
+            // Quick confetti burst
+            confetti({
+                particleCount: 25,
+                spread: 60,
+                origin: { x: (rect.left + rect.width / 2) / window.innerWidth, y: (rect.top) / window.innerHeight }
+            });
+        }
+
+        // -------------------------------------------------------------
+        // CONFETTI & CELEBRATION EFFECTS
+        // -------------------------------------------------------------
+        function launchCelebration() {
+            const duration = 3 * 1000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#f472b6', '#a855f7', '#34d399']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#f472b6', '#a855f7', '#34d399']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            })();
+        }
+
+        function launchConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        function launchBirthdaySurprise() {
+            launchCelebration();
+
+            // Custom modal / alert message for birthday wish
+            setTimeout(() => {
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in';
+                modal.innerHTML = `
+                    <div class="glass-card max-w-md w-full p-6 rounded-3xl border border-pink-500/50 text-center space-y-4 shadow-2xl">
+                        <div class="text-5xl">🎂✨</div>
+                        <h3 class="text-2xl font-bold text-white">¡Deseo Concedido!</h3>
+                        <p class="text-gray-300 text-sm">
+                            Que todos tus commits se compilen sin errores, tus proyectos triunfen y que sigamos construyendo esta historia juntos por siempre.
+                        </p>
+                        <button onclick="this.closest('.fixed').remove()" class="w-full py-3 rounded-xl bg-pink-500 hover:bg-pink-600 text-white font-bold transition-colors">
+                            ¡Gracias mi amor! ❤️
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }, 800);
+        }
+
+        // Smooth Scroll Helper
+        function scrollToSection(id) {
+            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Auto run terminal on scroll view optional
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                runTerminalScript();
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>
